@@ -153,9 +153,6 @@ gulp.task('build-useref', [
   var assets = $.useref.assets({searchPath: '{public,app}'});
 
   return gulp.src(paths.index)
-    .pipe($.if(options.env !== 'production',
-      $.multinject(['http://localhost:35729/livereload.js?snipver=1'], 'livereload')
-    ))
     .pipe(assets)
     .pipe($.if(options.env === 'production', $.if('*.js', $.uglify())))
     .pipe($.if(options.env === 'production', $.if('*.css', $.csso())))
@@ -163,6 +160,25 @@ gulp.task('build-useref', [
     .pipe($.useref())
     .pipe($.if(options.env === 'production', $.if('*.html', $.htmlmin({collapseWhitespace: true}))))
     .pipe(gulp.dest('public'));
+});
+
+/**
+ * gulp connect
+ */
+gulp.task('connect', ['build'], function () {
+  var serveStatic = require('serve-static'),
+      serveIndex = require('serve-index');
+
+  var app = require('connect')()
+    .use(require('connect-livereload')({port: 35729}))
+    .use(serveStatic('public'))
+    .use(serveIndex('public'));
+
+  require('http').createServer(app)
+    .listen(9000)
+    .on('listening', function () {
+      console.log('Started connect web server on http://localhost:9000');
+    });
 });
 
 /**
@@ -180,6 +196,13 @@ gulp.task('watch', function() {
   gulp.watch(paths.scripts, ['scripts']);
   gulp.watch(paths.styles,  ['styles']);
   gulp.watch(paths.images,  ['images']);
+});
+
+/**
+ * gulp watch
+ */
+gulp.task('serve', ['connect', 'watch'], function () {
+  require('opn')('http://localhost:9000');
 });
 
 /**
