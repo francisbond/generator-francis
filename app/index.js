@@ -104,11 +104,6 @@ var FrancisGenerator = yeoman.generators.Base.extend({
     this.copy('env', '.env');
   },
 
-  public: function() {
-    this.mkdir('public');
-    this.copy('htaccess', 'public/.htaccess');
-  },
-
   install: function() {
     this.installDependencies();
   }
