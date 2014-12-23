@@ -185,8 +185,6 @@ gulp.task('connect', ['build'], function () {
  * gulp watch
  */
 gulp.task('watch', function() {
-  gulp.start('build-useref');
-
   $.livereload.listen();
   gulp.watch('public/**/*', $.livereload.changed);
 
