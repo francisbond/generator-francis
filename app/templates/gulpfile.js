@@ -14,9 +14,7 @@ var paths = {
   extras: 'app/*.*',
   html: ['app/**/*.{html,json,csv}'],
   index: 'app/index.html',
-  clean: ['.tmp/*', 'public/**/*',
-      '!public/assets', '!public/assets/**/*',
-      '!public/index.php', '!public/.htaccess']
+  clean: ['.tmp/*', 'public/**/*']
 };
 
 var knownOptions = {
