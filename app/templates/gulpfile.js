@@ -127,7 +127,9 @@ gulp.task('clean', function(cb) {
 gulp.task('html', function() {
   return gulp.src(paths.html)
     .pipe($.changed('public'))
-    .pipe($.if(options.env === 'production', $.htmlmin({collapseWhitespace: true})))
+    .pipe($.if(options.env === 'production',
+      $.if('*.html', $.htmlmin({collapseWhitespace: true}))
+    ))
     .pipe(gulp.dest('public'));
 })
 
@@ -156,7 +158,9 @@ gulp.task('build-useref', [
     .pipe($.if(options.env === 'production', $.if('*.css', $.csso())))
     .pipe(assets.restore())
     .pipe($.useref())
-    .pipe($.if(options.env === 'production', $.if('*.html', $.htmlmin({collapseWhitespace: true}))))
+    .pipe($.if(options.env === 'production',
+      $.if('*.html', $.htmlmin({collapseWhitespace: true}))
+    ))
     .pipe(gulp.dest('public'));
 });
 
