@@ -102,6 +102,8 @@ var FrancisGenerator = yeoman.generators.Base.extend({
     this.copy('editorconfig', '.editorconfig');
     this.copy('jshintrc', '.jshintrc');
     this.copy('env', '.env');
+    this.copy('_static.cfg', '_static.cfg');
+    this.copy('server.js', 'server.js');
   },
 
   install: function() {
